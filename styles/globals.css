@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   FamilyHub Design Tokens (CSS custom properties)
+   Mirrors tailwind.config.ts so non-Tailwind consumers (e.g.
+   third-party embeds) can still read the same source of truth.
+   ============================================================ */
+@layer base {
+  :root {
+    --font-display: 'Fraunces', ui-serif, Georgia, serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --color-bg: 247 245 242; /* linen */
+    --color-bg-elevated: 255 255 255;
+    --color-fg: 43 46 74; /* dusk */
+    --color-fg-muted: 76 85 120; /* twilight */
+    --color-accent: 224 142 69; /* hearth */
+    --color-accent-strong: 196 105 58; /* ember */
+    --color-border: 237 233 227;
+
+    --radius-sm: 0.375rem;
+    --radius-md: 0.875rem;
+    --radius-lg: 1.25rem;
+
+    --shadow-soft: 0 2px 8px -2px rgba(43, 46, 74, 0.08), 0 4px 16px -4px rgba(43, 46, 74, 0.06);
+
+    /* ----------------------------------------------------------
+       Theme packages (Settings → Appearance)
+       ----------------------------------------------------------
+       Every `bg-hearth-*` / `text-hearth-*` / etc. class across the
+       app compiles down to `rgb(var(--hearth-N) / <alpha-value>)`
+       (see tailwind.config.ts) — so switching these ten variables is
+       enough to re-skin every button, badge, and highlight in the
+       app without touching a single component file. "Hearth" here
+       is the default package; data-color-theme="X" blocks below
+       override the same ten variables for each alternate package.
+       Values are "R G B" triples (no commas) for Tailwind's
+       alpha-value color syntax. */
+    --hearth-50: 253 243 233;
+    --hearth-100: 251 230 210;
+    --hearth-200: 245 203 160;
+    --hearth-300: 238 175 110;
+    --hearth-400: 224 142 69;
+    --hearth-500: 196 105 58;
+    --hearth-600: 162 84 45;
+    --hearth-700: 125 65 35;
+    --hearth-800: 88 46 25;
+    --hearth-900: 52 27 14;
+  }
+
+  .dark {
+    --color-bg: 16 17 34; /* dusk-900 */
+    --color-bg-elevated: 29 31 51; /* dusk-800 */
+    --color-fg: 247 245 242; /* linen */
+    --color-fg-muted: 176 178 203; /* dusk-200 */
+    --color-accent: 224 142 69;
+    --color-accent-strong: 238 175 110;
+    --color-border: 59 62 94;
+  }
+
+  /* Ocean — teal/blue */
+  [data-color-theme='ocean'] {
+    --hearth-50: 234 246 248;
+    --hearth-100: 211 237 241;
+    --hearth-200: 166 219 227;
+    --hearth-300: 121 196 210;
+    --hearth-400: 59 166 188;
+    --hearth-500: 44 138 160;
+    --hearth-600: 34 110 128;
+    --hearth-700: 26 84 96;
+    --hearth-800: 18 58 66;
+    --hearth-900: 10 34 38;
+  }
+
+  /* Forest — green */
+  [data-color-theme='forest'] {
+    --hearth-50: 238 245 236;
+    --hearth-100: 220 235 216;
+    --hearth-200: 183 215 174;
+    --hearth-300: 146 194 133;
+    --hearth-400: 95 158 82;
+    --hearth-500: 74 126 64;
+    --hearth-600: 58 100 50;
+    --hearth-700: 44 76 38;
+    --hearth-800: 30 52 26;
+    --hearth-900: 16 32 14;
+  }
+
+  /* Berry — magenta/purple */
+  [data-color-theme='berry'] {
+    --hearth-50: 247 238 247;
+    --hearth-100: 239 220 239;
+    --hearth-200: 219 180 219;
+    --hearth-300: 199 140 199;
+    --hearth-400: 166 84 158;
+    --hearth-500: 138 64 132;
+    --hearth-600: 110 50 104;
+    --hearth-700: 84 38 79;
+    --hearth-800: 58 26 55;
+    --hearth-900: 32 14 31;
+  }
+
+  /* Sunset — coral/red-orange */
+  [data-color-theme='sunset'] {
+    --hearth-50: 253 240 235;
+    --hearth-100: 251 223 211;
+    --hearth-200: 245 187 165;
+    --hearth-300: 238 151 119;
+    --hearth-400: 224 112 79;
+    --hearth-500: 196 85 56;
+    --hearth-600: 162 67 44;
+    --hearth-700: 125 52 34;
+    --hearth-800: 88 36 24;
+    --hearth-900: 52 20 13;
+  }
+
+  /* Slate — minimal monochrome */
+  [data-color-theme='slate'] {
+    --hearth-50: 244 245 246;
+    --hearth-100: 233 235 237;
+    --hearth-200: 205 210 216;
+    --hearth-300: 177 184 194;
+    --hearth-400: 107 114 128;
+    --hearth-500: 86 93 104;
+    --hearth-600: 69 75 84;
+    --hearth-700: 54 58 66;
+    --hearth-800: 38 41 47;
+    --hearth-900: 23 24 27;
+  }
+
+  * {
+    @apply border-linen-300 dark:border-dusk-600;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-linen-200 text-dusk-700 antialiased dark:bg-dusk-900 dark:text-linen-200;
+    font-family: var(--font-sans), 'Noto Color Emoji';
+  }
+
+  /* Android/Google-style emoji everywhere: the browser only reaches for
+     this font for characters Inter has no glyph for (i.e. emoji), so
+     regular text is untouched. Applied at the point of use rather than
+     inside --font-sans itself, since next/font's generated variable
+     value would otherwise take precedence over a :root fallback. */
+  input,
+  textarea,
+  select,
+  button {
+    font-family: var(--font-sans), 'Noto Color Emoji';
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  /* Visible keyboard focus everywhere — accessibility floor. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-hearth-400 ring-offset-2 ring-offset-linen-200 dark:ring-offset-dusk-900;
+  }
+
+  /* Respect reduced-motion preferences. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .skeleton-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.04) 25%,
+      rgba(0, 0, 0, 0.08) 37%,
+      rgba(0, 0, 0, 0.04) 63%
+    );
+    background-size: 1000px 100%;
+  }
+  .dark .skeleton-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 25%,
+      rgba(255, 255, 255, 0.09) 37%,
+      rgba(255, 255, 255, 0.04) 63%
+    );
+  }
+}
